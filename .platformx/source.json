@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "upstream_repo": "openclaw/openclaw",
+  "fork_repo": "platformx-os/openclaw",
+  "release": "v2026.10.5",
+  "upstream_commit": "1b58cb9a1b4f4353e1add63c8506db4d890962e8",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".",
+    "dockerfile_sha256": "f8d4a2431b92f0ac70bb1e0d15cce8907537b7c42475e3d2a9d9486af2f013d7",
+    "prepare": [],
+    "args": {
+      "GIT_COMMIT": "${BUILD_SOURCE_COMMIT}",
+      "OPENCLAW_DOCKER_BUILD_VERSION": "2026.10.5",
+      "OPENCLAW_BUILD_TIMESTAMP": "${BUILD_SOURCE_TIMESTAMP}"
+    },
+    "validation": "source contract only; no image build or runtime test performed"
+  },
+  "runtime": {
+    "entrypoint": [
+      "tini",
+      "-s",
+      "--",
+      "node",
+      "/app/docker-entrypoint.mjs"
+    ],
+    "image_command": [
+      "node",
+      "openclaw.mjs",
+      "gateway"
+    ],
+    "command": [
+      "node",
+      "openclaw.mjs",
+      "gateway"
+    ],
+    "user": {
+      "bootstrap": "node",
+      "service": "node",
+      "uid": 1000,
+      "gid": 1000,
+      "overrides": []
+    },
+    "state_directory": "/home/node/.openclaw",
+    "state_environment": {
+      "OPENCLAW_STATE_DIR": "/home/node/.openclaw",
+      "OPENCLAW_CONFIG_PATH": "/home/node/.openclaw/openclaw.json",
+      "OPENCLAW_CONFIG_DIR": "/home/node/.openclaw"
+    },
+    "workspace_directory": "/home/node/.openclaw/workspace",
+    "workspace_environment": {
+      "OPENCLAW_WORKSPACE_DIR": "/home/node/.openclaw/workspace"
+    },
+    "config_files": [
+      "openclaw.json"
+    ],
+    "auxiliary_state_directories": [
+      "/home/node/.config/openclaw"
+    ],
+    "telegram": {
+      "provisioning": "separate private channel configuration and distinct bot credential; not initialized by this source contract",
+      "mode": "use upstream Telegram setup for selected release; no bot credentials in public source"
+    },
+    "activation_caveats": [
+      "Preserve tini and upstream docker entrypoint. It runs doctor --fix --non-interactive before gateway activation.",
+      "Persistent state, workspace and auth-secret directories must be writable by node uid/gid1000.",
+      "Default gateway command does not certify configured channels or successful startup; private deployment must remain gated until tested."
+    ]
+  },
+  "provenance": {
+    "required_oci_labels": {
+      "org.opencontainers.image.source": "https://github.com/platformx-os/openclaw",
+      "org.opencontainers.image.revision": "${BUILD_SOURCE_COMMIT}",
+      "org.opencontainers.image.version": "v2026.10.5"
+    },
+    "revision_rule": "BUILD_SOURCE_COMMIT is the exact custom integration commit being built, not the upstream baseline. No floating tag is a deployment pin.",
+    "build_inputs_note": "Upstream Dockerfile is reused unchanged. Its package manager/network build steps are not claimed byte-reproducible; archive dependency/provenance evidence when a future approved build runs."
+  },
+  "license": {
+    "path": "LICENSE",
+    "sha256": "9efd316ecf1c4c60f6fd5d26433142fff2b6794d7d328e9bc6179b29bf9c82a4"
+  },
+  "version_validation": {
+    "mode": "package_json",
+    "metadata_file": "package.json"
+  },
+  "patches": {
+    "legacy_imported": false,
+    "runtime_patches": [],
+    "policy": "No old deployment settings, credentials, conversations, memory or custom feature patches are carried silently. Required future changes belong in reviewed integration PRs."
+  },
+  "preparation": {
+    "actions_enabled": false,
+    "build_performed": false,
+    "deployment_performed": false
+  },
+  "upstream_sources": [
+    "https://github.com/openclaw/openclaw/blob/1b58cb9a1b4f4353e1add63c8506db4d890962e8/Dockerfile",
+    "https://github.com/openclaw/openclaw/blob/1b58cb9a1b4f4353e1add63c8506db4d890962e8/docker-entrypoint.mjs",
+    "https://github.com/openclaw/openclaw/blob/1b58cb9a1b4f4353e1add63c8506db4d890962e8/docker-compose.yml",
+    "https://github.com/openclaw/openclaw/blob/1b58cb9a1b4f4353e1add63c8506db4d890962e8/package.json",
+    "https://github.com/openclaw/openclaw/blob/1b58cb9a1b4f4353e1add63c8506db4d890962e8/docs/install/docker.md",
+    "https://github.com/openclaw/openclaw/blob/1b58cb9a1b4f4353e1add63c8506db4d890962e8/docs/install/migrating.md",
+    "https://github.com/openclaw/openclaw/blob/1b58cb9a1b4f4353e1add63c8506db4d890962e8/docs/channels/telegram.md"
+  ]
+}
