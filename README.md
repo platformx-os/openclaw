@@ -1,3 +1,5 @@
+PlatformX source preparation: [build/runtime contract and checks](README.platformx.md). No image build or deployment is included.
+
 # OpenClaw 🦞 — Your assistant, on your devices, in your chats
 
 <p align="center">
